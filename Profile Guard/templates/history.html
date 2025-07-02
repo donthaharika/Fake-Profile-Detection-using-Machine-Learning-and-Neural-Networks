@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}History - Fake Profile Detection{% endblock %}
+{% block content %}
+    <h1>Prediction History</h1>
+    <p>View your past profile analysis results (updates in real-time).</p>
+    
+    <div id="history-list" class="history-list">
+        {% for entry in history %}
+        <div class="history-item {{ entry.result.lower() }}">
+            <h3>{{ entry.features.name }} ({{ entry.result }})</h3>
+            <p><strong>Confidence:</strong> {{ (entry.confidence * 100)|round(2) }}%</p>
+            <p><strong>Statuses:</strong> {{ entry.features.statuses_count }}</p>
+            <p><strong>Followers:</strong> {{ entry.features.followers_count }}</p>
+            <p><strong>Friends:</strong> {{ entry.features.friends_count }}</p>
+            <p><strong>Favourites:</strong> {{ entry.features.favourites_count }}</p>
+            <p><strong>Listed:</strong> {{ entry.features.listed_count }}</p>
+            <p><strong>Created At:</strong> {{ entry.features.created_at }}</p>
+            <p><strong>URL:</strong> {{ entry.features.url or 'None' }}</p>
+            <p><strong>Description:</strong> {{ entry.features.description or 'None' }}</p>
+            <p><strong>Time:</strong> {{ entry.timestamp }}</p>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

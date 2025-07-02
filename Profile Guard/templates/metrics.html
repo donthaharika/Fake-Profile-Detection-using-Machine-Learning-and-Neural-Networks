@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Metrics - Fake Profile Detection{% endblock %}
+{% block content %}
+    <h1>Model Performance Metrics</h1>
+    <p>View the performance metrics of the Neural Network model on the test set.</p>
+    
+    <section class="metrics-section">
+        <h2>Accuracy</h2>
+        <p>{{ (metrics.accuracy * 100)|round(2) }}%</p>
+    </section>
+    
+    <section class="metrics-section">
+        <h2>Classification Report</h2>
+        <table class="metrics-table">
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Fake (0)</th>
+                    <th>Genuine (1)</th>
+                    <th>Macro Avg</th>
+                    <th>Weighted Avg</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Precision</td>
+                    <td>{{ metrics.classification_report['0']['precision']|round(2) }}</td>
+                    <td>{{ metrics.classification_report['1']['precision']|round(2) }}</td>
+                    <td>{{ metrics.classification_report['macro avg']['precision']|round(2) }}</td>
+                    <td>{{ metrics.classification_report['weighted avg']['precision']|round(2) }}</td>
+                </tr>
+                <tr>
+                    <td>Recall</td>
+                    <td>{{ metrics.classification_report['0']['recall']|round(2) }}</td>
+                    <td>{{ metrics.classification_report['1']['recall']|round(2) }}</td>
+                    <td>{{ metrics.classification_report['macro avg']['recall']|round(2) }}</td>
+                    <td>{{ metrics.classification_report['weighted avg']['recall']|round(2) }}</td>
+                </tr>
+                <tr>
+                    <td>F1-Score</td>
+                    <td>{{ metrics.classification_report['0']['f1-score']|round(2) }}</td>
+                    <td>{{ metrics.classification_report['1']['f1-score']|round(2) }}</td>
+                    <td>{{ metrics.classification_report['macro avg']['f1-score']|round(2) }}</td>
+                    <td>{{ metrics.classification_report['weighted avg']['f1-score']|round(2) }}</td>
+                </tr>
+                <tr>
+                    <td>Support</td>
+                    <td>{{ metrics.classification_report['0']['support'] }}</td>
+                    <td>{{ metrics.classification_report['1']['support'] }}</td>
+                    <td>{{ metrics.classification_report['macro avg']['support'] }}</td>
+                    <td>{{ metrics.classification_report['weighted avg']['support'] }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

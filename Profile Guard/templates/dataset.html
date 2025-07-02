@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block title %}Dataset - Fake Profile Detection{% endblock %}
+{% block content %}
+    <h1>Dataset Overview</h1>
+    <p>Explore the dataset used to train our fake profile detection model.</p>
+
+    <!-- Dataset Size -->
+    <section class="dataset-section">
+        <h2>Dataset Size</h2>
+        <p>Total Profiles: {{ dataset_size.total }}</p>
+        <p>Genuine Profiles: {{ dataset_size.genuine }}</p>
+        <p>Fake Profiles: {{ dataset_size.fake }}</p>
+    </section>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab('structure')">Structure</button>
+        <button class="tab-btn" onclick="openTab('stats')">Statistics</button>
+        <button class="tab-btn" onclick="openTab('sample')">Sample Data</button>
+        <button class="tab-btn" onclick="openTab('missing')">Missing Values</button>
+        <button class="tab-btn" onclick="openTab('dist')">Distributions</button>
+        <button class="tab-btn" onclick="openTab('confusion')">Confusion Matrix</button>
+    </div>
+
+    <!-- Structure Tab -->
+    <div id="structure" class="tab-content active">
+        <h2>Structure</h2>
+        <table class="dataset-table">
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Data Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for col in columns %}
+                <tr>
+                    <td>{{ col }}</td>
+                    <td>{{ dtypes[col] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Statistics Tab -->
+    <div id="stats" class="tab-content">
+        <h2>Summary Statistics</h2>
+        <table class="dataset-table">
+            <thead>
+                <tr>
+                    <th>Statistic</th>
+                    {% for col in columns %}
+                        {% if col in stats %}
+                        <th>{{ col }}</th>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for stat in ['count', 'mean', 'std', 'min', '25%', '50%', '75%', 'max'] %}
+                <tr>
+                    <td>{{ stat }}</td>
+                    {% for col in columns %}
+                        {% if col in stats %}
+                        <td>{{ stats[col][stat] | round(2) if stats[col][stat] is float else stats[col][stat] }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Sample Data Tab -->
+    <div id="sample" class="tab-content">
+        <h2>Sample Data (First 5 Rows)</h2>
+        <table class="dataset-table">
+            <thead>
+                <tr>
+                    {% for col in columns %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in sample_data %}
+                <tr>
+                    {% for col in columns %}
+                    <td>{{ row[col] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Missing Values Tab -->
+    <div id="missing" class="tab-content">
+        <h2>Missing Values</h2>
+        <table class="dataset-table">
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Missing Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for col, count in missing_values.items() %}
+                <tr>
+                    <td>{{ col }}</td>
+                    <td>{{ count }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Distributions Tab -->
+    <div id="dist" class="tab-content">
+        <h2>Feature Distributions</h2>
+        <div class="visualization-section">
+            <h3>Followers Count Distribution</h3>
+            <img src="{{ url_for('static', filename='visualizations/followers_dist.png') }}" alt="Followers Distribution">
+        </div>
+        <div class="visualization-section">
+            <h3>Statuses Count Distribution</h3>
+            <img src="{{ url_for('static', filename='visualizations/statuses_dist.png') }}" alt="Statuses Distribution">
+        </div>
+    </div>
+
+    <!-- Confusion Matrix Tab -->
+    <div id="confusion" class="tab-content">
+        <h2>Confusion Matrix</h2>
+        <p>Computed on the test set (0 = Fake, 1 = Genuine):</p>
+        <table class="dataset-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Predicted Fake</th>
+                    <th>Predicted Genuine</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Actual Fake</td>
+                    <td>{{ confusion_matrix[0][0] }}</td>
+                    <td>{{ confusion_matrix[0][1] }}</td>
+                </tr>
+                <tr>
+                    <td>Actual Genuine</td>
+                    <td>{{ confusion_matrix[1][0] }}</td>
+                    <td>{{ confusion_matrix[1][1] }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Download Links -->
+    <section class="dataset-section">
+        <h2>Download Datasets</h2>
+        <p><a href="{{ url_for('download_users') }}" class="download-link">Download Genuine Users (users.csv)</a></p>
+        <p><a href="{{ url_for('download_fusers') }}" class="download-link">Download Fake Users (fusers.csv)</a></p>
+    </section>
+
+    <script>
+        function openTab(tabName) {
+            var i, tabcontent, tabbuttons;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            tabbuttons = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tabbuttons.length; i++) {
+                tabbuttons[i].classList.remove("active");
+            }
+            document.getElementById(tabName).classList.add("active");
+            event.currentTarget.classList.add("active");
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Visualizations - Fake Profile Detection{% endblock %}
+{% block content %}
+    <h1>Data Visualizations</h1>
+    <p>Explore visual insights from the genuine and fake profile datasets.</p>
+    
+    <section class="visualization-section">
+        <h2>Name Length Distribution</h2>
+        <img src="{{ url_for('static', filename='visualizations/name_length.png') }}" alt="Name Length Distribution">
+    </section>
+    
+    <section class="visualization-section">
+        <h2>Friends vs Followers</h2>
+        <img src="{{ url_for('static', filename='visualizations/friends_followers.png') }}" alt="Friends vs Followers">
+    </section>
+    
+    <section class="visualization-section">
+        <h2>Correlation Matrix - Genuine</h2>
+        <img src="{{ url_for('static', filename='visualizations/corr_genuine.png') }}" alt="Correlation Matrix Genuine">
+    </section>
+    
+    <section class="visualization-section">
+        <h2>Correlation Matrix - Fake</h2>
+        <img src="{{ url_for('static', filename='visualizations/corr_fake.png') }}" alt="Correlation Matrix Fake">
+    </section>
+    
+    <section class="visualization-section">
+        <h2>Boxplot of Profile Features</h2>
+        <img src="{{ url_for('static', filename='visualizations/boxplot.png') }}" alt="Boxplot">
+    </section>
+{% endblock %}

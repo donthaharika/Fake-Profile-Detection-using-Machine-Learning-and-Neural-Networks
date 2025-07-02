@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Home - Fake Profile Detection{% endblock %}
+{% block content %}
+    <h1>Fake Profile Detection</h1>
+    <p>Analyze a profile manually, fetch a simulated X profile, or generate a random one in real-time.</p>
+    
+    <form id="predict-form" class="profile-form">
+        <div class="input-group">
+            <label for="x_username">X Username (Simulated)</label>
+            <input type="text" name="x_username" id="x_username" placeholder="e.g., @username" title="Enter an X username to simulate fetching">
+        </div>
+        <div id="manual-input" class="manual-input">
+            <div class="input-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" placeholder="e.g., John Doe" title="Full name of the user" required>
+            </div>
+            <div class="input-group">
+                <label for="statuses_count">Statuses Count</label>
+                <input type="number" step="any" name="statuses_count" id="statuses_count" placeholder="e.g., 100" title="Number of posts" required>
+            </div>
+            <div class="input-group">
+                <label for="followers_count">Followers Count</label>
+                <input type="number" step="any" name="followers_count" id="followers_count" placeholder="e.g., 500" title="Number of followers" required>
+            </div>
+            <div class="input-group">
+                <label for="friends_count">Friends Count</label>
+                <input type="number" step="any" name="friends_count" id="friends_count" placeholder="e.g., 200" title="Number of friends/following" required>
+            </div>
+            <div class="input-group">
+                <label for="favourites_count">Favourites Count</label>
+                <input type="number" step="any" name="favourites_count" id="favourites_count" placeholder="e.g., 50" title="Number of likes/favorites" required>
+            </div>
+            <div class="input-group">
+                <label for="listed_count">Listed Count</label>
+                <input type="number" step="any" name="listed_count" id="listed_count" placeholder="e.g., 10" title="Number of times listed" required>
+            </div>
+            <div class="input-group">
+                <label for="created_at">Created At</label>
+                <input type="text" name="created_at" id="created_at" placeholder="e.g., Mon Jan 01 12:00:00 +0000 2020" title="Account creation date" required>
+            </div>
+            <div class="input-group">
+                <label for="url">URL (optional)</label>
+                <input type="text" name="url" id="url" placeholder="e.g., https://example.com" title="Profile URL">
+            </div>
+            <div class="input-group">
+                <label for="description">Description (optional)</label>
+                <textarea name="description" id="description" placeholder="e.g., I love coding!" title="Profile bio"></textarea>
+            </div>
+        </div>
+        <button type="submit" class="predict-btn">Analyze Profile</button>
+        <button type="button" id="simulate-btn" class="predict-btn simulate-btn">Simulate Random Profile</button>
+    </form>
+
+    <div id="loading" class="loading" style="display: none;">Analyzing...</div>
+    <div id="result" class="result-box" style="display: none;"></div>
+{% endblock %}
